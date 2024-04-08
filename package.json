@@ -1,0 +1,48 @@
+{
+  "name": "realtimechatapp",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@material-ui/core": "^4.12.4",
+    "@material-ui/icons": "^4.11.3",
+    "@mui/icons-material": "^5.15.15",
+    "@mui/material": "^5.15.15",
+    "@mui/styled-engine-sc": "^6.0.0-alpha.18",
+    "aos": "^2.3.4",
+    "axios": "^1.6.7",
+    "bcrypt-inzi": "^2.0.0",
+    "cloudinary": "^2.1.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.3.0",
+    "next": "14.1.0",
+    "next-auth": "^4.24.6",
+    "primereact": "^10.6.2",
+    "react": "^18",
+    "react-barcode": "^1.5.1",
+    "react-bootstrap-icons": "^1.11.3",
+    "react-dom": "^18",
+    "styled-components": "^6.1.8",
+    "yarn": "^1.22.22"
+  },
+  "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/react": "18.2.57",
+    "autoprefixer": "^10.0.1",
+    "daisyui": "^4.10.1",
+    "eslint": "^8",
+    "eslint-config-next": "14.1.0",
+    "file-loader": "^6.2.0",
+    "postcss": "^8",
+    "tailwindcss": "^3.3.0"
+  }
+}
