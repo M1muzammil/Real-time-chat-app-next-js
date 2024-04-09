@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div>
+    <form id="uploadForm" enctype="multipart/form-data">
+      <input id="folderInput" type="file" multiple webkitdirectory />
+      <button type="submit">Upload</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('uploadForm').addEventListener('submit', function(e) {
+      e.preventDefault(); // Prevent default form submission
+      
+      const folders = document.getElementById('folderInput').files;
+      const folderStructure = []; // Array to store folder structure
+      
+      for (let i = 0; i < folders.length; i++) {
+        const folder = folders[i];
+        const pathParts = folder.webkitRelativePath.split('/');
+        
+        // Iterate through pathParts to create nested array structure
+        let currentLevel = folderStructure;
+        for (let j = 0; j < pathParts.length; j++) {
+          const folderName = pathParts[j];
+          
+          // Check if folder already exists in the current level
+          let subfolder = currentLevel.find(item => item.folderName === folderName);
+          
+          if (!subfolder) {
+            // If folder doesn't exist, create a new one
+            subfolder = { folderName, files: [] };
+            currentLevel.push(subfolder);
+          }
+          
+          // Update currentLevel for next iteration
+          currentLevel = subfolder.files;
+          console.log(currentLevel)
+        }
+        
+        // Add files to the last subfolder
+        currentLevel.push(folder);
+      }
+      
+      console.log(folderStructure);
+      
+      // Now you can send folderStructure to the backend using fetch or perform further processing
+    });
+  </script>
+</body>
+</html>

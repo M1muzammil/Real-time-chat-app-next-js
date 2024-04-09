@@ -1,9 +1,11 @@
 import React from 'react'
 import Chat from "./users"
+import Singleuser from "./single-user"
 const chat = () => {
   return (
-    <div>
+    <div className='flex'>
    <Chat/>
+   <Singleuser/>
     </div>
   )
 }

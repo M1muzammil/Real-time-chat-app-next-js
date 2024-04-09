@@ -1,0 +1,159 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div>
+    <input id="folderInput" type="file" multiple webkitdirectory />
+  </div>
+
+  <script>
+    document.getElementById('folderInput').addEventListener('change', function(e) {
+
+      const files = e.target.files;
+      
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+
+        // console.log(files[i]);
+        
+        if (file.isDirectory) {
+          console.log('Folder:', file.webkitRelativePath);
+          
+          // Iterate through files in the folder
+          for (let j = 0; j < file.files.length; j++) {
+            const innerFile = file.files[j];
+            console.log('File:', innerFile.webkitRelativePath.split('/')[0]);
+            // console.log("run",inne 
+          }
+        } else {
+          console.log('File:', file.webkitRelativePath);
+        }
+      }
+    });
+  </script>
+</body>
+</html> -->
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div>
+    <form id="uploadForm" enctype="multipart/form-data">
+      <input id="folderInput" type="file" multiple webkitdirectory />
+      <button type="submit">Upload</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('uploadForm').addEventListener('submit', function(e) {
+      e.preventDefault(); // Prevent default form submission
+      
+      const folders = document.getElementById('folderInput').files;
+      
+      function traverseFolders(index) {
+        if (index >= folders.length) {
+          // All folders processed
+          return;
+        }
+        
+        const folder = folders[index];
+        console.log(folder.webkitRelativePath,folders[index])
+        const reader = new FileReader();
+        
+        reader.onload = function() {
+          const folderData = new Uint8Array(reader.result);
+          const folderName = folder.webkitRelativePath.split('/')[0];
+          
+          for (let i = 0; i < folderData.length; i++) {
+            if (folderData[i] === 255 && folderData[i + 1] === 216) {
+              // JPEG signature found (0xFFD8)
+              const imageFile = new File([folderData.subarray(i)], folderName + '.jpg', { type: 'image/jpeg' });
+              
+              const formData = new FormData();
+              formData.append('parentFolderName', folderName);
+              formData.append('image', imageFile);
+              
+              // Example of sending formData to backend using fetch
+              fetch('your-backend-url', {
+                method: 'POST',
+                body: formData
+              })
+              .then(response => {
+                // Handle response from server
+              })
+              .catch(error => {
+                // Handle error
+              });
+              
+              break;
+            }
+          }
+          
+          // Process next folder
+          traverseFolders(index + 1);
+        };
+        
+        reader.readAsArrayBuffer(folder);
+      }
+      
+      // Start traversing from the first folder
+      traverseFolders(0);
+    });
+  </script>
+</body>
+</html> -->
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div>
+    <form id="uploadForm" enctype="multipart/form-data">
+      <input id="folderInput" type="file" multiple webkitdirectory />
+      <button type="submit">Upload</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('uploadForm').addEventListener('submit', function(e) {
+      e.preventDefault(); // Prevent default form submission
+      
+      const folders = document.getElementById('folderInput').files;
+      const folderImages = new Map(); // Map to store images by folder name
+      
+      for (let i = 0; i < folders.length; i++) {
+        const folder = folders[i];
+        const folderName = folder.webkitRelativePath.split('/')[0];
+        
+        if (!folderImages.has(folderName)) {
+          folderImages.set(folderName, []);
+        }
+        
+        folderImages.get(folderName).push(folder);
+      }
+      
+      // Convert Map to array of objects
+      const folderImageData = Array.from(folderImages, ([folderName, images]) => ({ folderName, images }));
+      
+      console.log(folderImageData);
+      
+      // Now you can send folderImageData to the backend using fetch or perform further processing
+    });
+  </script>
+</body>
+</html>

@@ -11,6 +11,7 @@ const index = () => {
 
   const [users, setUsers] = useState([]);
  const [crrunteUser , setCrrunteUser]=useState([])
+ const [showEdit, setShowEdit] = useState(false); // Initially set to true
 
   const fetchUsers = async () => {
     try {
@@ -50,52 +51,60 @@ const index = () => {
     fetchcrruntuser()
   }, []);
 
+
+  const handleProfileClick = ()=>{
+    setShowEdit(true)
+  }
+  const handleCloseClick = (handleCloseClick)=>{
+    setShowEdit(handleCloseClick)
+  }
+
   return (
 
-<>
-<Edit/></>
 
 
 
-//     <div className='w-[444px] p-3 border-black border-2 flex gap-3 flex-col'>
+
+    <div className='w-[444px] p-3 border-black shadow-lg flex gap-3 flex-col'>
 
 
-//       <span className='flex flex-col gap-3'>
+      <span className='flex flex-col gap-3'>
 
-//         <span className="crrunt-user flex gap-2 items-center cursor-pointer">
-//           <Avatar alt="Travis Howard" src={crrunteUser.profileImageUrl}/>
-//           <h1 className='text-2xl text-purple-800'>{crrunteUser.firstName}</h1>
-//         </span>
-
-
-
-//         <div className="search-input  ">
-//           <label className="input input-bordered flex items-center gap-2 p-3">
-//             <input type="text" className="grow border-purple-800 border-b-2  " placeholder="Search" />
-//             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4 opacity-70"><path fillRule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clipRule="evenodd" /></svg>
-//           </label>
-//         </div>
-
-//       </span>
+        <span className="crrunt-user flex gap-2 items-center cursor-pointer" onClick={handleProfileClick}>
+          <Avatar alt="Travis Howard" src={crrunteUser.profileImageUrl}/>
+          <h1 className='text-2xl text-purple-800'>{crrunteUser.firstName}</h1>
+        </span>
 
 
-//       <span className="allusers flex flex-col gap-2">
-//         {users.map(user => (
-//           <span key={user._id} className="allusers flex flex-col gap-2 cursor-pointer shadow-md p-2">
-//             <span className="crrunt-user flex gap-2 items-center">
-//               <Avatar alt={user.firstName} src={user.profileImageUrl}
-//                 sx={{ bgcolor: deepPurple[500], width: "80px", height: "80px" }} />
-//               <h1 className='text-2xl text-purple-800'>{user.firstName}</h1>
 
-//             </span>
-//           </span>
-//         ))}
-//       </span>
+        <div className="search-input  ">
+          <label className="input input-bordered flex items-center gap-2 p-3">
+            <input type="text" className="grow border-purple-800 border-b-2  " placeholder="Search" />
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4 opacity-70"><path fillRule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clipRule="evenodd" /></svg>
+          </label>
+        </div>
+
+      </span>
 
 
-// <Edit/>
+      <span className="allusers flex flex-col gap-2">
+        {users.map(user => (
+          <span key={user._id} className="allusers flex flex-col gap-2 cursor-pointer shadow-md p-2">
+            <span className="crrunt-user flex gap-2 items-center">
+              <Avatar alt={user.firstName} src={user.profileImageUrl}
+                sx={{ bgcolor: deepPurple[500], width: "80px", height: "80px" }} />
+              <h1 className='text-2xl text-purple-800'>{user.firstName}</h1>
 
-//     </div>
+            </span>
+          </span>
+        ))}
+      </span>
+
+
+      {showEdit && <div className='fixed flex justify-center items-center bg-purple-200'><Edit onSubmit={handleCloseClick} handleCloseClick={handleCloseClick} /></div>}
+    
+
+    </div>
   )
 }
 

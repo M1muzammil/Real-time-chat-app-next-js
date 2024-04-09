@@ -1,15 +1,18 @@
 "use client"
 
-import React, { useRef } from 'react'
+import React, { useRef ,useState } from 'react'
 import axios from "axios"
 import { Password } from 'primereact/password';
 import { Dice1 } from 'react-bootstrap-icons';
 import CloseIcon from '@mui/icons-material/Close';
 
-const Page = () => {
-
+const Page = ({handleCloseClick}) => {
+  
   const fileRef = useRef()
-
+  
+    const [oldPassword, setOldPassword] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+  
 
 
   const submitHandler = async (e) => {
@@ -36,10 +39,29 @@ const Page = () => {
 
   }
 
+
+  const passwordsubmitHandler = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.put("http://localhost:3000/api/v1/auth/password", {
+        oldPassword,
+        newPassword
+      }, {
+        withCredentials: true,
+      });
+setNewPassword("")
+setOldPassword("")
+      console.log(response.data.message); 
+    } catch (error) {
+      console.log(error.response.data.message); 
+    }
+  };
+
   return (
   <div className=' flex justify-center items-center'>
       < div className='flex flex-col gap-12 w-[400px] shadow-lg p-2'>
-<span className="back cursor-pointer">
+<span className="back cursor-pointer" onClick={()=>handleCloseClick(false)}>
 <CloseIcon/>
 </span>
 
@@ -57,16 +79,17 @@ const Page = () => {
 
 <div className="card flex justify-content-center ">
    <h1>Old password</h1>
-       <Password className=' border-gray-700 border-b-2' onChange={(e) => setValue(e.target.value)} />
-   </div>
+   <Password value={oldPassword} onChange={(e) => setOldPassword(e.target.value)} className='border-gray-700 border-b-2  bg-purple-200' />
+        </div>
    <div className="card flex justify-content-center ">
    <h1>New password</h1>
-       <Password className=' border-gray-700 border-b-2' onChange={(e) => setValue(e.target.value)} />
-   </div>
+   <Password value={newPassword} onChange={(e) => setNewPassword(e.target.value)} className='border-gray-700 border-b-2  bg-purple-200' />
+          </div>
    <span className="flex justify-end">
-   <button className="btn btn-success"onClick={submitHandler}>Update</button> 
+   <button className="btn btn-success"onClick={passwordsubmitHandler}>Update</button> 
    </span>
 </div>
+
   </div>
 
   )
